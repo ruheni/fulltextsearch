@@ -1,0 +1,10 @@
+// This is used by ./prisma/seed.ts to resolve "SyntaxError: Cannot use import statement outside a module" when working with axios
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "dist",
+    "strict": true,
+    "lib": ["esnext"],
+    "esModuleInterop": true
+  }
+}
