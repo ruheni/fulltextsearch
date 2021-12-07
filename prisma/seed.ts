@@ -48,6 +48,7 @@ async function main() {
     /**
      * No need to scrape https://www.gutenberg.org/ when you have this API
      * Limitation: starts from page 2, and returns 32 books for every response
+     * 63 books will be seeded because one url is 'undefined'  🎉 
      */
     for (let i = 2; i < 4; i++) {
       axios.get(`https://gutendex.com/books/?page=${i}`).then((response) => {
@@ -60,6 +61,9 @@ async function main() {
            * This ternary operator reduces or running into an 'undefined' url
            */
           const url = book.formats['text/html'] === undefined ? book.formats['text/html; charset=utf-8'] : book.formats['text/html']
+
+          // One URL returns an undefined, so skip that
+          if (url === undefined) return
 
           /**
            * A HTML document is returned here
