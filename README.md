@@ -4,6 +4,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Clone this repository:
 ```bash
+git clone git@github.com:ruheni/fulltextsearch-w-prisma.git
 ```
 
 Modify the existing `env.example` to a `.env` file:
@@ -13,9 +14,9 @@ mv .env.example env
 
 Update your database connection string in `.env`. This example requires a PostgreSQL database.
 
-```
+```bash
 DATABASE_URL="postgresql://user:password@localhost:5432/mydb?schema=public"
-``
+```
 
 Create and seed the database:
 ```bash
