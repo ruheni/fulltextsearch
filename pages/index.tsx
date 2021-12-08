@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import type { NextPage, InferGetServerSidePropsType } from 'next'
-import { Book } from '@prisma/client';
+import { Film } from '@prisma/client';
 
 import prisma from '../utils/prisma';
 
 
 
 export const getServerSideProps = async () => {
-  const results = await prisma.book.findMany({ select: { title: true, url: true, id: true } })
+  const results = await prisma.film.findMany({ select: { title: true, id: true } })
 
   return {
     props: {
@@ -20,7 +20,7 @@ export const getServerSideProps = async () => {
 
 const Home: NextPage = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [searchQuery, setSearchQuery] = useState('')
-  const [response, setResponse] = useState<Book[]>([])
+  const [response, setResponse] = useState<Film[]>([])
 
   const router = useRouter()
 

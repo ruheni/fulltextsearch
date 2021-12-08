@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { URL, URLSearchParams } from 'url';
+import { serialize } from 'v8';
 import prisma from '../../utils/prisma'
 
 type QueryRequest = {
@@ -12,27 +13,47 @@ export default async function handler(
 ) {
   let requestQuery = req.query as QueryRequest
 
+  let AND, NOT, OR, FOLLOWS
   // const param = new URL()
   let query = new URLSearchParams(requestQuery).get('q') as string
 
 
-  if (query && query !== undefined) {
+  if (query !== undefined) {
 
     /**
      * TODO: add switch case for different types of queries
      */
+
+
+    // let searchQuery
+    // switch (query) {
+    //   case AND:
+    //     searchQuery = query.replaceAll(' ', ' & ')
+    //     break;
+    //   case NOT:
+    //     break;
+    //   case OR:
+    //     break;
+    //   case FOLLOWS:
+    //     break;
+    //   default:
+    //     break;
+    // }
+
+    if (query.includes(' ')) {
+
+    }
     let searchQuery = query.replaceAll(' ', ' & ')
 
     try {
-      const results = await prisma.book.findMany({
+      const results = await prisma.film.findMany({
         where: {
-          content: {
+          description: {
             search: searchQuery
           },
-        }, select: {
-          title: true,
         }
       })
+      console.log(results.length)
 
       res.status(200).send(results)
     } catch (error) {
