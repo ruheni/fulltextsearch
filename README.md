@@ -6,6 +6,7 @@ Clone this repository:
 
 ```bash
 git clone git@github.com:ruheni/fulltextsearch-w-prisma.git
+yarn
 ```
 
 Modify the existing `env.example` to a `.env` file:
