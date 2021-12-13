@@ -42,7 +42,6 @@ export default async function handler(
       const highlighter = new RegExp(`\\b(${query})\\b`, 'g')
       for (let result of results) {
         const i = result.content.indexOf(query)
-        // TODO: generate an excerpt during seeding
         result.content = result.content.slice(i - 100, i + 100)
         result.content = result.content.replace(
           highlighter,
