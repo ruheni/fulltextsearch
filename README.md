@@ -3,13 +3,16 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Setup locally
 
 Clone this repository:
+
 ```bash
 git clone git@github.com:ruheni/fulltextsearch-w-prisma.git
+yarn
 ```
 
 Modify the existing `env.example` to a `.env` file:
+
 ```bash
-mv .env.example env
+mv .env.example .env
 ```
 
 Update your database connection string in `.env`. This example requires a PostgreSQL database.
@@ -19,6 +22,7 @@ DATABASE_URL="postgresql://user:password@localhost:5432/mydb?schema=public"
 ```
 
 Create and seed the database:
+
 ```bash
 npx prisma migrate
 npx prisma db seed
@@ -27,13 +31,15 @@ npx prisma db seed
 If the seeding was successful, you'll see the titles logged on the terminal.
 
 View the data on Prisma Studio:
+
 ```bash
 npx prisma studio
 ```
 
-*Prisma studio may take a while to load because the `content` field of the `Book` contains the contents of the entire book in plain text format which is really BIG*
+_Prisma studio may take a while to load because the `content` field of the `Book` contains the contents of the entire book in plain text format which is really BIG_
 
 Start the application:
+
 ```
 npm run dev
 ```
