@@ -5,7 +5,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier . -w --ignore-path .gitignore"
   },
   "dependencies": {
     "@prisma/client": "^3.6.0",
@@ -21,12 +22,13 @@
     "@types/react": "17.0.37",
     "eslint": "7",
     "eslint-config-next": "12.0.4",
+    "prettier": "^2.5.1",
     "prisma": "^3.6.0",
     "ts-node": "^10.4.0",
     "typescript": "4.5.2"
   },
   "prisma": {
-    "seed": "ts-node -P tsconfig-seed.json prisma/seed"
+    "seed": "ts-node -P prisma/seed"
   },
   "prettier": {
     "trailingComma": "none",
