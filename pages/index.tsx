@@ -18,7 +18,7 @@ const Home: NextPage = () => {
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     /** do nothing when searchQuery is empty */
-    if (searchQuery === '') return;
+    if (searchQuery === '') return
 
     setLoading(true)
 
@@ -33,11 +33,9 @@ const Home: NextPage = () => {
       .catch((error) => setError(error))
   }
 
-  const gradients = ["bg-gradient-to-r from-purple-500 to-pink-500", ""]
+  const gradients = ['bg-gradient-to-r from-purple-500 to-pink-500', '']
 
-  const selectRandomGradient = 
-
-  useEffect(() => {
+  const selectRandomGradient = useEffect(() => {
     /**
      * clear router query on page reload
      */
@@ -47,7 +45,7 @@ const Home: NextPage = () => {
 
     fetch('/api')
       .then((response) => response.json())
-      .then(response => {
+      .then((response) => {
         setResponse(response)
       })
       .catch((error) => {
@@ -74,8 +72,11 @@ const Home: NextPage = () => {
             id="search"
             name="book"
           />
-          <button type="submit" className="ml-2 p-4 text-3xl bg-violet-800 text-white rounded focus:ring-2 focus:bg-violet-700">
-            {loading ? "Searching..." : "Search"}
+          <button
+            type="submit"
+            className="ml-2 p-4 text-3xl bg-violet-800 text-white rounded focus:ring-2 focus:bg-violet-700"
+          >
+            {loading ? 'Searching...' : 'Search'}
           </button>
         </form>
       </div>
@@ -87,19 +88,26 @@ const Home: NextPage = () => {
        */}
       {response && response.length ? (
         <section className="grid grid-cols-6 gap-4">
-          {response.map((book) => (
-            book.content ?
-              (<></>)
-              : (
-                <div key={book.id} className="border p-1 rounded h-72 grid place-items-end">
-                  {/* color gradient for the titles bg-gradient-to-r from-cyan-500 to-blue-500 */}
-                  <h2 className="text-xl text-right text-slate-900">{book.title.length <= 100 ? book.title : `${book.title.slice(0, 100)}...`}</h2>
-                  {/* TODO: pass marked segments down to browser to do highlighing
+          {response.map((book) =>
+            book.content ? (
+              <></>
+            ) : (
+              <div
+                key={book.id}
+                className="border p-1 rounded h-72 grid place-items-end"
+              >
+                {/* color gradient for the titles bg-gradient-to-r from-cyan-500 to-blue-500 */}
+                <h2 className="text-xl text-right text-slate-900">
+                  {book.title.length <= 100
+                    ? book.title
+                    : `${book.title.slice(0, 100)}...`}
+                </h2>
+                {/* TODO: pass marked segments down to browser to do highlighing
                   on the frontend. */}
-                  {/* <p dangerouslySetInnerHTML={{ __html: book.content }} /> */}
-                </div>
-              )
-          ))}
+                {/* <p dangerouslySetInnerHTML={{ __html: book.content }} /> */}
+              </div>
+            )
+          )}
         </section>
       ) : null}
     </div>
