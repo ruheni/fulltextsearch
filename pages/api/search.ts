@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { URL, URLSearchParams } from 'url'
+import { URLSearchParams } from 'url'
 import prisma from '../../utils/prisma'
 
 type QueryRequest = {
@@ -12,8 +12,7 @@ export default async function handler(
 ) {
   let requestQuery = req.query as QueryRequest
 
-  // const param = new URL()
-  let query = new URLSearchParams(requestQuery).get('q') as string
+  let query = new URLSearchParams(requestQuery).get('q')
   if (query && query !== undefined) {
     /**
      * TODO: add switch case for different types of queries
