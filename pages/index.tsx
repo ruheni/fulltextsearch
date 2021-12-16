@@ -88,9 +88,12 @@ const Home: NextPage = () => {
        */}
       {response && response.length ? (
         <section className="grid grid-cols-6 gap-4">
+          {response.map(book => console.log(book.content))}
           {response.map((book) =>
-            book.content ? (
-              <></>
+            book.content !== undefined ? (
+              <div key={book.id}>
+                💩
+              </div>
             ) : (
               <div
                 key={book.id}
