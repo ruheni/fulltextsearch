@@ -8,3 +8,7 @@ CREATE TABLE "Book" (
 
     CONSTRAINT "Book_pkey" PRIMARY KEY ("id")
 );
+
+CREATE EXTENSION pg_trgm;
+CREATE EXTENSION btree_gin;
+CREATE INDEX book_content_index ON "Book" USING GIN (to_tsvector('english',"content"));
