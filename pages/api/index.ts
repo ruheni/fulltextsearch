@@ -2,10 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import prisma from '../../utils/prisma'
 
-type QueryRequest = {
-  q: string
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse

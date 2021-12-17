@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { URLSearchParams } from 'url'
-import prisma from '../../utils/prisma'
 
+import prisma from '../../utils/prisma'
 type QueryRequest = {
   q: string
 }
@@ -26,11 +26,6 @@ export default async function handler(
           content: {
             search: searchQuery
           }
-        },
-        select: {
-          id: true,
-          title: true,
-          content: true
         }
       })
       // Trim content and highlight query. Use word boundaries (\b) and capture
@@ -38,6 +33,7 @@ export default async function handler(
       //
       // TODO: For the query "great", how do we highlight "greatest"? Ask
       // Flavian. This might be something we need to add to the Prisma Client.
+      // only works with one word searches
       const highlighter = new RegExp(`\\b(${query})\\b`, 'g')
       for (let result of results) {
         const i = result.content.indexOf(query)
@@ -46,6 +42,7 @@ export default async function handler(
           highlighter,
           '<strong>$1</strong>'
         )
+        result.content
       }
 
       console.timeEnd('query')
