@@ -18,3 +18,11 @@ body {
   background-attachment: fixed;
   background-size: cover;
 }
+
+.books {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 13rem));
+  max-width: 1500px;
+  margin: auto;
+}

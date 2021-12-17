@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 
 import type { NextPage } from 'next'
 import { Book } from '@prisma/client'
-import Loading from '../components/loading'
 
 const Home: NextPage = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -30,15 +29,14 @@ const Home: NextPage = () => {
         setLoading(false)
         setResponse(response)
       })
-      .catch((error) => setError(error))
+      .catch(setError)
   }
 
-  const gradients = ['bg-gradient-to-r from-purple-500 to-pink-500', '']
-
-  const selectRandomGradient = useEffect(() => {
+  useEffect(() => {
     /**
      * clear router query on page reload
      */
+    setSearchQuery('')
     if (router.query) {
       router.replace({ query: null })
     }
@@ -59,6 +57,7 @@ const Home: NextPage = () => {
     <div className="px-10">
       <div style={{ maxWidth: '800px', margin: 'auto' }}>
         {/* {loading && <Loading />} */}
+        <h1></h1>
         <form onSubmit={onSubmit} className="rounded px-8 pt-6 pb-8 mb-4 flex">
           <label htmlFor="search ">
             <span className="hidden">Search</span>
@@ -81,38 +80,48 @@ const Home: NextPage = () => {
         </form>
       </div>
 
-      {/**
-       * Store initial responses in useState
-       * on search.. add loading state,
-       * ...override responses
-       */}
-      {response && response.length ? (
-        <section className="grid grid-cols-6 gap-4">
-          {response.map(book => console.log(book.content))}
-          {response.map((book) =>
-            book.content !== undefined ? (
-              <div key={book.id}>
-                💩
-              </div>
-            ) : (
-              <div
-                key={book.id}
-                className="border p-1 rounded h-72 grid place-items-end"
-              >
-                {/* color gradient for the titles bg-gradient-to-r from-cyan-500 to-blue-500 */}
-                <h2 className="text-xl text-right text-slate-900">
-                  {book.title.length <= 100
-                    ? book.title
-                    : `${book.title.slice(0, 100)}...`}
-                </h2>
-                {/* TODO: pass marked segments down to browser to do highlighing
-                  on the frontend. */}
-                {/* <p dangerouslySetInnerHTML={{ __html: book.content }} /> */}
-              </div>
-            )
+      {/** if book contains no content property from API response */}
+      {response && response.length && (
+        <section className="books">
+          {response.map(
+            (book) =>
+              book.content === undefined && (
+                <div
+                  key={book.id}
+                  className="border p-2 rounded h-72 grid place-items-end  bg-slate-50  text-slate-900"
+                >
+                  <h2 className="text-xl text-right">
+                    {book.title.length <= 100
+                      ? book.title
+                      : `${book.title.slice(0, 100)}...`}
+                  </h2>
+                </div>
+              )
           )}
         </section>
-      ) : null}
+      )}
+
+      {response && response.length && (
+        <section>
+          {response.map((book) =>
+            book.content !== undefined ? (
+              <div key={book.id} className="text-slate-900 flex">
+                <h2 className="text-xl  border p-2 rounded h-72  bg-slate-50 w-48 max-w-52 p-2">
+                  {book.title}
+                </h2>
+                {/* TODO: pass marked segment down to browser to do highlighing
+                  on the frontend. 
+                  * [DISCLAIMER]: only works with one word search queries
+                  */}
+                <p
+                  className="text-base px-4 py-6"
+                  dangerouslySetInnerHTML={{ __html: book.content }}
+                />
+              </div>
+            ) : null
+          )}
+        </section>
+      )}
     </div>
   )
 }
