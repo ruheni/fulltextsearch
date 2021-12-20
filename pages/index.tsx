@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import type { NextPage } from 'next'
-import { Book } from '@prisma/client'
+import type { Book } from '@prisma/client'
+
+import SearchBar from '../components/Search'
+import BookCover from '../components/BookCover'
+import BookSearch from '../components/BookSearch'
+
+type BookApiResponse = Exclude<Book, 'content'>[] | Book[]
 
 const Home: NextPage = () => {
   const [searchQuery, setSearchQuery] = useState('')
 
-  const [response, setResponse] = useState<Exclude<Book, 'content'>[]>([])
+  const [response, setResponse] = useState<BookApiResponse>([])
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<any>(null)
@@ -34,7 +40,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     /**
-     * clear router query on page reload
+     * clear router query on page (re)load
      */
     setSearchQuery('')
     if (router.query) {
@@ -54,31 +60,19 @@ const Home: NextPage = () => {
   }, [])
 
   return (
-    <div className="px-10">
-      <div style={{ maxWidth: '800px', margin: 'auto' }}>
-        {/* {loading && <Loading />} */}
-        <h1></h1>
-        <form onSubmit={onSubmit} className="rounded px-8 pt-6 pb-8 mb-4 flex">
-          <label htmlFor="search ">
-            <span className="hidden">Search</span>
-          </label>
-          <input
-            type="text"
-            className="form-search shadow appearance-none border rounded w-full py-6 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-3xl placeholder:text-gray-400 text-3xl"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search for your favorite title"
-            id="search"
-            name="book"
-          />
-          <button
-            type="submit"
-            className="ml-2 p-4 text-3xl bg-violet-800 text-white rounded focus:ring-2 focus:bg-violet-700"
-          >
-            {loading ? 'Searching...' : 'Search'}
-          </button>
-        </form>
+    <div className="px-10 pb-20 pt-10">
+      <div className="mx-auto max-w-screen-lg">
+        <SearchBar
+          searchQuery={searchQuery}
+          loading={loading}
+          onSubmit={onSubmit}
+          setSearchQuery={setSearchQuery}
+        />
       </div>
+
+      {error && error !== undefined ? (
+        <pre className="prose">{JSON.stringify(error, null)}</pre>
+      ) : null}
 
       {/** if book contains no content property from API response */}
       {response && response.length && (
@@ -86,38 +80,22 @@ const Home: NextPage = () => {
           {response.map(
             (book) =>
               book.content === undefined && (
-                <div
-                  key={book.id}
-                  className="border p-2 rounded h-72 grid place-items-end  bg-slate-50  text-slate-900"
-                >
-                  <h2 className="text-xl text-right">
-                    {book.title.length <= 100
-                      ? book.title
-                      : `${book.title.slice(0, 100)}...`}
-                  </h2>
-                </div>
+                <BookCover id={book.id} title={book.title} />
               )
           )}
         </section>
       )}
 
+      {/** book with content returned */}
       {response && response.length && (
         <section>
           {response.map((book) =>
             book.content !== undefined ? (
-              <div key={book.id} className="text-slate-900 flex">
-                <h2 className="text-xl  border p-2 rounded h-72  bg-slate-50 w-48 max-w-52 p-2">
-                  {book.title}
-                </h2>
-                {/* TODO: pass marked segment down to browser to do highlighing
-                  on the frontend. 
-                  * [DISCLAIMER]: only works with one word search queries
-                  */}
-                <p
-                  className="text-base px-4 py-6"
-                  dangerouslySetInnerHTML={{ __html: book.content }}
-                />
-              </div>
+              <BookSearch
+                id={book.id}
+                title={book.title}
+                content={book.content}
+              />
             ) : null
           )}
         </section>
