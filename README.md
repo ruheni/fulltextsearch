@@ -24,8 +24,8 @@ DATABASE_URL="postgresql://user:password@localhost:5432/mydb?schema=public"
 Create and seed the database:
 
 ```bash
-npx prisma migrate
-npx prisma db seed
+npx prisma migrate dev
+npx prisma db seed  # Running migrate dev on a new database also triggers seeding the database so you don't have to run the command
 ```
 
 If the seeding was successful, you'll see the titles logged on the terminal.
