@@ -60,8 +60,8 @@ const Home: NextPage = () => {
   }, [])
 
   return (
-    <div className="px-10 pb-20 pt-10">
-      <div className="mx-auto max-w-screen-lg">
+    <div>
+      <div className="top-0 sticky backdrop-blur-sm bg-slate/30 px-10 ">
         <SearchBar
           searchQuery={searchQuery}
           loading={loading}
@@ -75,31 +75,51 @@ const Home: NextPage = () => {
       ) : null}
 
       {/** if book contains no content property from API response */}
-      {response && response.length && (
-        <section className="books">
-          {response.map(
-            (book) =>
-              book.content === undefined && (
-                <BookCover id={book.id} title={book.title} />
-              )
-          )}
-        </section>
-      )}
+      <section className="mx-20 mx-auto pb-20">
 
-      {/** book with content returned */}
-      {response && response.length && (
-        <section>
-          {response.map((book) =>
-            book.content !== undefined ? (
-              <BookSearch
-                id={book.id}
-                title={book.title}
-                content={book.content}
-              />
-            ) : null
-          )}
-        </section>
-      )}
+        {response.every((book) => book.content != typeof undefined) ? (
+          // books with no content property
+          <>
+            {response && response.length && (
+              <section className="books">
+                {response.map(
+                  (book) =>
+                    book.content === undefined && (
+                      <BookCover
+                        id={book.id}
+                        title={book.title}
+                        cover={book.cover}
+                      />
+                    )
+                )}
+              </section>
+            )}
+          </>
+        ) : (
+          // books with content property
+          <>
+            {response && response.length && (
+              <section>
+                <p className="text-xl my-4">
+                  <span className="font-semibold">{response.length}</span>
+                  <span>{response.length > 1 ? 'books' : 'book'}</span>
+                </p>
+
+                {response.map((book) =>
+                  book.content !== undefined ? (
+                    <BookSearch
+                      id={book.id}
+                      title={book.title}
+                      content={book.content}
+                      cover={book.cover}
+                    />
+                  ) : null
+                )}
+              </section>
+            )}
+          </>
+        )}
+      </section>
     </div>
   )
 }
