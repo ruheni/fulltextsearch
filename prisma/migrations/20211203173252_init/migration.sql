@@ -4,6 +4,7 @@ CREATE TABLE "Book" (
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "url" TEXT NOT NULL,
+    "cover" TEXT NOT NULL,
     "authors" TEXT[],
 
     CONSTRAINT "Book_pkey" PRIMARY KEY ("id")

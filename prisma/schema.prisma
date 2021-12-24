@@ -12,10 +12,10 @@ datasource db {
 }
 
 model Book {
-  id      Int    @id @default(autoincrement())
+  id      Int      @id @default(autoincrement())
   title   String
   content String
   url     String
-
+  cover   String
   authors String[]
 }

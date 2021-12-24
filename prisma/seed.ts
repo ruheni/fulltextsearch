@@ -52,7 +52,6 @@ async function main() {
     for (let i = 2; i < 4; i++) {
       axios.get(`https://gutendex.com/books/?page=${i}`).then((response) => {
         const books: Book[] = response.data.results
-
         books.map(async (book: Book) => {
           /**
            * Use the html version of the book instead of 'text/plain' because some books don't have 'text/plain' version
@@ -75,6 +74,7 @@ async function main() {
             data: {
               title: book.title,
               url,
+              cover: book.formats['image/jpeg'],
               /**
                * convert html response to text format
                */
@@ -82,7 +82,6 @@ async function main() {
               authors: book.authors.map(({ name }) => name)
             }
           })
-
           console.log(result.title)
         })
       })
