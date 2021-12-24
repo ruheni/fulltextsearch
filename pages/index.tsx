@@ -7,6 +7,7 @@ import type { Book } from '@prisma/client'
 import SearchBar from '../components/Search'
 import BookCover from '../components/BookCover'
 import BookSearch from '../components/BookSearch'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 type BookApiResponse = Exclude<Book, 'content'>[] | Book[]
 
@@ -74,52 +75,48 @@ const Home: NextPage = () => {
         <pre className="prose">{JSON.stringify(error, null)}</pre>
       ) : null}
 
+      {loading && <LoadingSpinner />}
+
       {/** if book contains no content property from API response */}
-      <section className="mx-20 mx-auto pb-20">
+      <div className="mx-20 mb-20">
 
-        {response.every((book) => book.content != typeof undefined) ? (
-          // books with no content property
-          <>
-            {response && response.length && (
-              <section className="books">
-                {response.map(
-                  (book) =>
-                    book.content === undefined && (
-                      <BookCover
-                        id={book.id}
-                        title={book.title}
-                        cover={book.cover}
-                      />
-                    )
-                )}
-              </section>
+        {!loading && response && response.length && (
+          <section className="books">
+            {response.map(
+              (book) =>
+                book.content === undefined && (
+                  <BookCover id={book.id} title={book.title} cover={book.cover} />
+                )
             )}
-          </>
-        ) : (
-          // books with content property
-          <>
-            {response && response.length && (
-              <section>
-                <p className="text-xl my-4">
-                  <span className="font-semibold">{response.length}</span>
-                  <span>{response.length > 1 ? 'books' : 'book'}</span>
-                </p>
-
-                {response.map((book) =>
-                  book.content !== undefined ? (
-                    <BookSearch
-                      id={book.id}
-                      title={book.title}
-                      content={book.content}
-                      cover={book.cover}
-                    />
-                  ) : null
-                )}
-              </section>
-            )}
-          </>
+          </section>
         )}
-      </section>
+
+        {/** book with content returned */}
+        {!loading && response && response.length && (
+          <section>
+            {/*  */}
+            {response.every(book => book.content != undefined) && (
+              <p className="text-xl my-4">
+                <span>{response.length < 1 && 'No book was found'}</span>
+                <span className="font-semibold">{response.length} </span>
+                <span>{response.length > 1 ? 'books' : 'book'}</span>
+              </p>
+            )}
+
+            {response.map((book) =>
+              book.content !== undefined ? (
+                <BookSearch
+                  id={book.id}
+                  title={book.title}
+                  content={book.content}
+                  cover={book.cover}
+                />
+              ) : null
+            )}
+          </section>
+        )}
+
+      </div>
     </div>
   )
 }
