@@ -11,7 +11,10 @@ const SearchBar = ({
   setSearchQuery,
   loading
 }: Props) => (
-  <form onSubmit={onSubmit} className="rounded px-8 pt-6 pb-8 mb-4 flex">
+  <form
+    onSubmit={onSubmit}
+    className="rounded mb-4 pb-8 pt-10 flex mx-auto max-w-screen-lg "
+  >
     <label htmlFor="search ">
       <span className="hidden">Search</span>
     </label>
