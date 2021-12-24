@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   try {
     const results = await prisma.book.findMany({
-      select: { title: true, url: true, id: true }
+      select: { title: true, url: true, id: true, cover: true }
     })
 
     res.status(200).send(results)
