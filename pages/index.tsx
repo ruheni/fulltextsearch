@@ -79,13 +79,16 @@ const Home: NextPage = () => {
 
       {/** if book contains no content property from API response */}
       <div className="mx-20 mb-20">
-
         {!loading && response && response.length && (
           <section className="books">
             {response.map(
               (book) =>
                 book.content === undefined && (
-                  <BookCover id={book.id} title={book.title} cover={book.cover} />
+                  <BookCover
+                    id={book.id}
+                    title={book.title}
+                    cover={book.cover}
+                  />
                 )
             )}
           </section>
@@ -95,7 +98,7 @@ const Home: NextPage = () => {
         {!loading && response && response.length && (
           <section>
             {/*  */}
-            {response.every(book => book.content != undefined) && (
+            {response.every((book) => book.content != undefined) && (
               <p className="text-xl my-4">
                 <span>{response.length < 1 && 'No book was found'}</span>
                 <span className="font-semibold">{response.length} </span>
@@ -115,7 +118,6 @@ const Home: NextPage = () => {
             )}
           </section>
         )}
-
       </div>
     </div>
   )
