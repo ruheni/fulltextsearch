@@ -11,7 +11,7 @@
   "dependencies": {
     "@prisma/client": "3.7.0",
     "@tailwindcss/forms": "0.4.0",
-    "axios": "0.24.0",
+    "axios": "1.13.5",
     "html-to-text": "8.1.0",
     "next": "12.0.7",
     "react": "17.0.2",
